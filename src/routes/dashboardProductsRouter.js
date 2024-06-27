@@ -1,9 +1,8 @@
 import express from "express";
+import { dashboardRender } from "../controllers/dashboardControllers.js";
+import { isAdminOrAdminMaster } from "../middleware/auth.js";
+import { isAuthenticated } from "../middleware/auth.js";
 
 export const dashboardProductsRouter = express.Router();
 
-dashboardProductsRouter.get("/", (req, res) => {
-  res.render("dashboardProducts", {
-    style: "style.css",
-  });
-});
+dashboardProductsRouter.get("/",isAuthenticated, isAdminOrAdminMaster, dashboardRender);
