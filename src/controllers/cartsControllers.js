@@ -100,7 +100,7 @@ export const getCartsController = async (req, res) => {
         productInCart.quantity += 1;
       } else {
         // Agregar el producto al carrito si no está
-        cart.products.push({ productId: new ObjectId(pid), quantity: 1 });
+        cart.products.push({ productId: ObjectId(pid), quantity: 1 });
       }
   
       // Guardar los cambios

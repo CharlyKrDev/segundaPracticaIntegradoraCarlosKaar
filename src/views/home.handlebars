@@ -39,7 +39,7 @@
   </div>
 </section>
 <h2>Productos</h2>
-<main class="container" id="main">
+<main class="container" id="main" data-cart-id="{{cart}}">
   {{#each productos}}
   <section class="cardContainer">
     <h2 class="titleCard">{{this.title}}</h2>
@@ -49,16 +49,13 @@
       <p>{{this.description}}</p>
       <p>Stock: {{this.stock}} unidades</p>
       <p><span>${{this.price}}</span></p>
-            {{#if ../cart}}
-              <label for="cartSelect-{{this._id}}">Selecciona Carrito:</label>
-              <select id="cartSelect-{{this._id}}" class="cart-select">
-                <option value="{{../cart}}">Mi carrito</option>
-              </select>
-              <button class="add-to-cart" data-id="{{this._id}}">Agregar al carrito</button>
-            {{/if}}
+      {{#if ../cart}}
+        <button class="add-to-cart" data-id="{{this._id}}">Agregar al carrito</button>
+      {{/if}}
     </section>
   </section>
   {{/each}}
 </main>
+
 <script src="/socket.io/socket.io.js"></script>
 <script type="module" src="/js/home.js"></script>

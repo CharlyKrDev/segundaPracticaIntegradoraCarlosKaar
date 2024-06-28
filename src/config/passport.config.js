@@ -70,7 +70,6 @@ passport.use('register', new LocalStrategy(
                 return done(null, user)
             }
 
-            const cartUser = user.cart
             let newCart = null;
             if (!user.cart || user.cart === null || user.cart === "" || user.cart === undefined) {
                 newCart = new cartsModel({ products: [] });
@@ -119,7 +118,6 @@ passport.use('register', new LocalStrategy(
                 done(null, result)
             }
             else{
-                const cartUser = user.cart
                 let newCart = null;
                 if (!user.cart || user.cart === null || user.cart === "" || user.cart === undefined) {
                     newCart = new cartsModel({ products: [] });

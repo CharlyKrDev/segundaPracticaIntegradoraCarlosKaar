@@ -46,33 +46,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Obtener el carrito del usuario desde un elemento de datos en el DOM
+  const userCartId = document.getElementById("main").getAttribute("data-cart-id");
+
   // Agregar event listeners a todos los botones 'add-to-cart'
   document.querySelectorAll(".add-to-cart").forEach((button) => {
     button.addEventListener("click", async (event) => {
-      console.log(`cliickkk`)
+      console.log(`cliickkk`);
       const productId = event.target.getAttribute("data-id");
-      const cartSelect = document.getElementById(`cartSelect-${productId}`);
-      const cartId = cartSelect.value;
 
       try {
-        // Enviar solicitud para agregar producto al carrito
-        const response = await fetch(
-          `/carts/${cartId}/products/${productId}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        // Enviar solicitud para agregar producto al carrito del usuario
+        const response = await fetch(`/carts/${userCartId}/products/${productId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         // Leer la respuesta del servidor
         const result = await response.json();
         if (response.ok) {
           // Mostrar mensaje de éxito si la solicitud se completó correctamente
-          alert(
-            `Producto añadido al carrito correctamente.`
-          );
+          alert(`Producto añadido al carrito correctamente.`);
         } else {
           // Mostrar mensaje de error si hubo algún problema
           alert(`Error al añadir el producto al carrito: ${result.message}`);
