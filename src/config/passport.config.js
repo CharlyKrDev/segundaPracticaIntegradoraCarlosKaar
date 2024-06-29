@@ -52,6 +52,7 @@ passport.use('register', new LocalStrategy(
 
 
     passport.serializeUser((user, done) => {
+      console.log(user)
         done(null, user._id)
     })
 
@@ -134,17 +135,6 @@ passport.use('register', new LocalStrategy(
         }
     }
 ))
-
-    passport.serializeUser((user, done) => {
-        done(null, user._id)
-    })
-
-    passport.deserializeUser(async (id, done) => {
-        let user = await userModel.findById(id)
-        done(null, user)
-    })
-
-
 
 
 }
