@@ -23,21 +23,12 @@ const initializePassport = () => {
     )
   );
 
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
-
-  passport.deserializeUser(async (id, done) => {
-    let user = await userModel.findById(id);
-    done(null, user);
-  });
-
   passport.use(
     "login",
     new LocalStrategy({ usernameField: "email" }, loginPassportController)
   );
 
-  //estrategia con tercero
+  // Estrategia con GitHub
   passport.use(
     "github",
     new GithubStrategy(
@@ -51,12 +42,20 @@ const initializePassport = () => {
   );
 
   passport.serializeUser((user, done) => {
+    console.log('Serializing user:', user);
     done(null, user._id);
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await userModel.findById(id);
-    done(null, user);
+    try {
+      let user = await userModel.findById(id);
+      if (!user) {
+        return done(new Error('Usuario no encontrado'), null);
+      }
+      done(null, user);
+    } catch (error) {
+      done(error, null);
+    }
   });
 };
 

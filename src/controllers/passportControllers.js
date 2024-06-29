@@ -2,12 +2,10 @@
 import userModel from "../dao/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import cartsModel from "../dao/models/carts.models.js";
-export const registerPassportController = async (
-  req,
-  username,
-  password,
-  done
-) => {
+import { generateToken } from "../utils.js";
+
+
+export const registerPassportController = async (req, username, password, done) => {
   const { first_name, last_name, email, age } = req.body;
   try {
     let user = await userModel.findOne({ email: username });
@@ -16,11 +14,8 @@ export const registerPassportController = async (
       return done(null, false);
     }
 
-    let newCart = null;
-    if (!user || !user.cart) {
-      newCart = new cartsModel({ products: [] });
-      await newCart.save();
-    }
+    let newCart = new cartsModel({ products: [] });
+    await newCart.save();
 
     const newUser = {
       first_name,
@@ -28,16 +23,17 @@ export const registerPassportController = async (
       email,
       age,
       password: createHash(password),
-      cart: newCart ? newCart._id : null,
+      cart: newCart._id,
     };
 
     let result = await userModel.create(newUser);
-    return done(null, result);
+
+    const token = generateToken(result);
+    return done(null, { user: result, token });
   } catch (error) {
     return done("Error al obtener el usuario: " + error);
   }
 };
-
 export const passportGithubController = async (
   accessToken,
   refreshToken,
@@ -98,24 +94,24 @@ export const loginPassportController = async (username, password, done) => {
 
     if (!user) {
       console.log("El usuario no existe");
-      return done(null, user);
+      return done(null, false);
+    }
+
+    if (!isValidPassword(user, password)) {
+      console.log("Contraseña incorrecta");
+      return done(null, false);
     }
 
     let newCart = null;
-    if (
-      !user.cart ||
-      user.cart === null ||
-      user.cart === "" ||
-      user.cart === undefined
-    ) {
+    if (!user.cart) {
       newCart = new cartsModel({ products: [] });
       await newCart.save();
       user.cart = newCart._id;
       await userModel.updateOne({ _id: user._id }, { cart: newCart._id });
     }
 
-    if (!isValidPassword(user, password)) return done(null, false);
-    return done(null, user);
+    const token = generateToken(user);
+    return done(null, { user, token });
   } catch (error) {
     return done(error);
   }
