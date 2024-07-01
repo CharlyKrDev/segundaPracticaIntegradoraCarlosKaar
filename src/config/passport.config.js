@@ -42,8 +42,16 @@ const initializePassport = () => {
   );
 
   passport.serializeUser((user, done) => {
-    console.log('Serializing user:', user);
-    done(null, user._id);
+    try {
+      console.log('Serializing user:', user);
+      
+      // Verificar que user tiene la estructura correcta para serializar
+      const userId = user._id || user.user._id; // Adaptar según la estructura real
+      
+      done(null, userId);
+    } catch (error) {
+      done(error);
+    }
   });
 
   passport.deserializeUser(async (id, done) => {

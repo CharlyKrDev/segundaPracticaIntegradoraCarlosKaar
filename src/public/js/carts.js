@@ -87,4 +87,46 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  document.getElementById('verCarrito').addEventListener('click', async () => {
+    console.log(`click carrito`)
+    try {
+      const response = await fetch('/api/carts', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}` // Obtener el token del localStorage
+        }
+      });
+      if (!response.ok) {
+        throw new Error('No se pudo obtener el carrito');
+      }
+      const cartData = await response.json();
+      window.location.href = `http://localhost:8080/carts/${cartData.cartId}`;
+    } catch (error) {
+      console.error('Error al obtener el carrito:', error.message);
+      // Manejar el error de acuerdo a tus necesidades (por ejemplo, mostrar un mensaje al usuario)
+    }
+  });
+
 });
+
+
+// document.getElementById('verCarrito').addEventListener('click', async () => {
+//   console.log(`click carrito`)
+//   try {
+//     const response = await fetch('/api/carts', {
+//       method: 'GET',
+//       headers: {
+//         'Authorization': `Bearer ${localStorage.getItem('token')}` // Obtener el token del localStorage
+//       }
+//     });
+//     if (!response.ok) {
+//       throw new Error('No se pudo obtener el carrito');
+//     }
+//     const userCartId = document.getElementById('verCarrito').getAttribute("data-cart-id");
+//     window.location.href = `http://localhost:8080/carts/${userCartId}`;
+//   } catch (error) {
+//     console.error('Error al obtener el carrito:', error.message);
+//     // Manejar el error de acuerdo a tus necesidades (por ejemplo, mostrar un mensaje al usuario)
+//   }
+// });

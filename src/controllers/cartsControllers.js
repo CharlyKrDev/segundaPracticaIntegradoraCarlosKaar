@@ -29,34 +29,32 @@ export const getCartsController = async (req, res) => {
   export const getCartsByIdController = async (req, res) => {
     const { cid } = req.params;
     try {
-      const cart = await cartsModel
-        .findById(cid)
-        .populate("products.productId")
-        .lean();
+      // Obtener el carrito por ID
+      const cart = await cartsModel.findById(cid).populate('products.productId').lean();
   
-      // Inicializa el total a 0
+      // Calcular el total del carrito
       let total = 0;
-  
-      // Itera sobre cada producto en el carrito
       cart.products.forEach((product) => {
-        // Multiplica la cantidad por el precio y suma al total
         total += product.quantity * product.productId.price;
       });
   
-      // Ahora puedes renderizar el carrito incluyendo el total
-      res.render("cart", {
-        style: "style.css",
+      // Renderizar la vista del carrito con los datos
+      res.render('cart', {
+        style: 'style.css',
         cart: cart,
         total: total,
       });
     } catch (error) {
-      res.status(500).render("noCart", {
-        style: "style.css",
-        message: `Error al obtener el carrito por ID`,
+      // Manejar errores si ocurre alguno
+      console.error('Error al obtener el carrito por ID:', error);
+      res.status(500).render('noCart', {
+        style: 'style.css',
+        message: 'Error al obtener el carrito por ID',
         error: error.message,
       });
     }
-  }
+  };
+  
 
   export const createCartController = async (req, res) => {
     try {

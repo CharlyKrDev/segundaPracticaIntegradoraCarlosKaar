@@ -5,7 +5,7 @@
 <p>Edad: {{user.age}}</p>
 <p>Mi rol: {{user.role}}</p>
 <p>ID de mi carrito:{{user.cart}}</p>
-<button><a href="http://localhost:8080/carts/{{user.cart}}">Ver mi carrito</a></button>
+<button id="verCarrito" data-cart-id={{user.cart}}>Ver mi carrito</button>
 
 
 
@@ -14,3 +14,4 @@
 <form action="/api/sessions/logout" method="POST">
     <button type="submit">Cerrar Sesión</button>
 </form>
+<script type="module" src="/js/carts.js"></script>

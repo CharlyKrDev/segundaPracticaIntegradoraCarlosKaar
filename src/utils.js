@@ -12,6 +12,7 @@ dotenv.config();
 export const SECRET_KEY = process.env.JWT_SECRET;
 
 export const generateToken = (user) => {
+  console.log(user)
   const payload = {
     sub: user._id,
     email: user.email,
