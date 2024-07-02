@@ -1,4 +1,4 @@
-import cartsModel from "../../data/models/carts.models";
+import cartsModel from "../../data/models/carts.models.js";
 
 class CartsDAO {
   async getAllCarts() {

@@ -1,5 +1,5 @@
 // /src/dao/products.dao.js
-import productsModel from '../data/models/products.model.js';
+import productsModel from "../../data/models/products.model.js";
 
 class ProductsDAO {
   async getProductById(id) {
