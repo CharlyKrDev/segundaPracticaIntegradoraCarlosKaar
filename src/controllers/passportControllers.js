@@ -1,8 +1,5 @@
-import passport from "passport";
-import local from "passport-local";
 import userModel from "../data/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
-import GithubStrategy from "passport-github2";
 import cartsModel from "../data/models/carts.models.js";
 export const registerPassportController = async (
   req,
