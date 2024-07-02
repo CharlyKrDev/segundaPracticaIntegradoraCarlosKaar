@@ -1,6 +1,6 @@
-import cartsModel from "../dao/models/carts.models.js";
-import productsModel from "../dao/models/products.model.js";
-import userModel from "../dao/models/user.model.js";
+import cartsModel from "../data/models/carts.models.js";
+import productsModel from "../data/models/products.model.js";
+import userModel from "../data/models/user.model.js";
 import mongoose from "mongoose";
 
 

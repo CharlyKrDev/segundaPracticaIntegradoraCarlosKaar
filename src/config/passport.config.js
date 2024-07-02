@@ -1,6 +1,6 @@
 import passport from "passport";
 import local from "passport-local";
-import userModel from "../dao/models/user.model.js";
+import userModel from "../data/models/user.model.js";
 import GithubStrategy from "passport-github2";
 import dotenv from "dotenv";
 import {
