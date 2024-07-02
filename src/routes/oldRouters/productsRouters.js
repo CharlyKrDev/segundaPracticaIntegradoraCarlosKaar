@@ -1,5 +1,7 @@
 import { Router } from "express";
-import productsModel from "../../dao/models/products.model.js";
+import productsModel from "../../data/models/products.model.js";
+import productsDAO from "../../dao/class/products.dao.js";
+
 
 const productsRouter = Router();
 
@@ -8,9 +10,9 @@ productsRouter.get("/", async (req, res) => {
   try {
     let products;
     if (!isNaN(limit)) {
-      products = await productsModel.find().limit(limit);
+      products = await productsDAO.getProductsLimit(limit);
     } else {
-      products = await productsModel.find().limit();
+      products = await productsDAO.getProducts();
     }
     res.status(200).json(products);
   } catch (error) {
@@ -23,7 +25,7 @@ productsRouter.get("/products/:pid", async (req, res) => {
   try {
     let product;
 
-    product = await productsModel.findOne({ _id: productId });
+    product = await productsDAO.getProductById({ _id: productId });
     res.status(200).json(product);
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -41,7 +43,7 @@ productsRouter.post("/products", async (req, res) => {
     thumbnail,
   } = req.body;
   try {
-    let checkCode = await productsModel.find({ code: code });
+    let checkCode = await productsDAO.getProductByCode({ code: code });
 
     if (checkCode.length > 0) {
       return res.status(400).json({ error: "Code existente" });
@@ -70,14 +72,13 @@ productsRouter.post("/products", async (req, res) => {
       thumbnail,
     } = req.body;
     try {
-      let checkId = await productsModel.findOne({ _id: productId });
+      let checkId = await productsDAO.getProductById({ _id: productId });
       if (!checkId) {
         return res
           .status(404)
           .send(`No se encontró ningún producto con el ID ${productId}`);
       }
-
-      let checkCode = await productsModel.find({ code: code });
+      let checkCode = await productsDAO.getProductByCode({ code: code });
 
       if (checkCode.length > 0) {
         return res.status(400).json({ error: "Code existente" });
@@ -94,13 +95,13 @@ productsRouter.delete("/products/:pid", async (req, res) => {
   const productId = req.params.pid;
 
   try {
-    let checkId = await productsModel.findOne({ _id: productId });
+    let checkId = await productsDAO.getProductById({ _id: productId });
     if (!checkId) {
       return res
         .status(404)
         .send(`No se encontró ningún producto con el ID ${productId}`);
     }
-    await productsModel.deleteOne({ _id: productId });
+    await productsDAO.deleteProductById(productId);
     res
       .status(200)
       .json({message:`El producto id: ${productId} ha sido eliminado correctamente`});

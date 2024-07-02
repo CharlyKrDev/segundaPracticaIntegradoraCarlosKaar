@@ -1,0 +1,21 @@
+import userModel from "../../data/models/user.model.js"
+
+class UsersDAO {
+  async getUserByEmail(email) {
+    return await userModel.findOne({ email });
+  }
+
+  async createNewUser(newUser) {
+    return await userModel.create(newUser);
+  }
+
+  async updateUserCart(userId, cartId) {
+    return await userModel.updateOne({ _id: userId }, { cart: cartId });
+  }
+
+  async updateUser(userId, updateData) {
+    return await userModel.updateOne({ _id: userId }, updateData);
+  }
+}
+
+export default new UsersDAO();
