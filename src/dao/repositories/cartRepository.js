@@ -1,4 +1,4 @@
-import cartsModel from "../models/carts.models.js";
+import cartsModel from "../../data/models/carts.models.js";
 
 export const createCart = async () => {
   const newCart = new cartsModel({ products: [] });

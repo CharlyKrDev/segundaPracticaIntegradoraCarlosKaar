@@ -1,4 +1,4 @@
-import productsModel from "../models/products.model.js";
+import productsModel from "../../data/models/products.model.js";
 
 export const getTotalProductsCount = async () => {
   return await productsModel.countDocuments();

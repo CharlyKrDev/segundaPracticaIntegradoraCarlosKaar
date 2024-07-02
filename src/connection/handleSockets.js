@@ -1,6 +1,6 @@
 import { __dirname } from "../utils.js";
 
-import productsModel from "../dao/models/products.model.js";
+import productsModel from "../data/models/products.model.js";
 
 export const socketConnection = (socketServer) => {
   socketServer.on("connection", async (socket) => {

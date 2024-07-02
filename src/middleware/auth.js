@@ -1,4 +1,4 @@
-import cartsModel from "../dao/models/carts.models.js";
+import cartsModel from "../data/models/carts.models.js";
 
 
 export const isAuthenticated = (req, res, next) => {

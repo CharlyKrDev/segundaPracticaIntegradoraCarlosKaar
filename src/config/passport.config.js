@@ -1,10 +1,10 @@
 import passport from "passport";
 import local from 'passport-local'
-import userModel from '../dao/models/user.model.js'
+import userModel from '../data/models/user.model.js'
 import { createHash, isValidPassword } from "../utils.js";
 import GithubStrategy from "passport-github2"
 import dotenv from "dotenv";
-import cartsModel from "../dao/models/carts.models.js";
+import cartsModel from "../data/models/carts.models.js";
 import mongoose from "mongoose";
 
 const ObjectId = mongoose.Types.ObjectId;

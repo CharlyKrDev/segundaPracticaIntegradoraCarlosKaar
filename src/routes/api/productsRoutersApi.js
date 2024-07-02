@@ -1,6 +1,6 @@
 import express from "express";
-import productsModel from "../../dao/models/products.model.js";
-import cartsModel from "../../dao/models/carts.models.js";
+import productsModel from "../../data/models/products.model.js";
+import cartsModel from "../../data/models/carts.models.js";
 
 export const productsRouterApi = express.Router();
 

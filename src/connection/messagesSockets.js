@@ -1,5 +1,5 @@
 import { __dirname } from "../utils.js";
-import messagesModel from "../dao/models/messages.models.js";
+import messagesModel from "../data/models/messages.models.js";
 
 export const messagesConnection = (socketServer) => {
   console.log(`Message client connected`);
