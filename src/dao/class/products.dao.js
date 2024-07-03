@@ -23,6 +23,14 @@ class ProductsDAO {
   async deleteProductById (productId){
     await productsModel.deleteOne({_id:productId})
   }
+
+  async getTotalProductsCount () {
+    return await productsModel.countDocuments();
+  };
+  
+  async getProductsPaginated (options)  {
+    return await productsModel.paginate({}, options);
+  };
 }
 
 export default new ProductsDAO();

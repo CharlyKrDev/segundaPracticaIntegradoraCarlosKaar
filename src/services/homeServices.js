@@ -1,12 +1,12 @@
-import { getTotalProductsCount, getProductsPaginated } from "../dao/repositories/productsRepository.js";
-import { findUserById } from "../dao/repositories/userRepository.js";
+import ProductsDAO from "../dao/class/products.dao.js";
+import usersDAO from "../dao/class/users.dao.js";
 
 export const getHomePageData = async (userId, query) => {
   let cartId = null;
 
   // Si el usuario está autenticado, buscar el carrito
   if (userId) {
-    const user = await findUserById(userId);
+    const user = await usersDAO.findUserById(userId);
     if (!user) {
       throw new Error("Usuario inexistente");
     }
@@ -14,7 +14,7 @@ export const getHomePageData = async (userId, query) => {
   }
 
   let { limit = 10, page = 1, sort, debug } = query;
-  const totalProduct = await getTotalProductsCount();
+  const totalProduct = await ProductsDAO.getTotalProductsCount();
 
   // Convertir limit a número si no es "all"
   limit = limit === "all" ? totalProduct : parseInt(limit);
@@ -36,7 +36,7 @@ export const getHomePageData = async (userId, query) => {
     lean: true,
   };
 
-  const products = await getProductsPaginated(options);
+  const products = await ProductsDAO.getProductsPaginated(options);
 
   return {
     products,

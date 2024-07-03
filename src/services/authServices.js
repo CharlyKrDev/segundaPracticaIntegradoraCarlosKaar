@@ -1,16 +1,16 @@
-import { findUserByEmail, createUser, updateUserCart, findUserById } from "../dao/repositories/userRepository.js";
-import { createCart } from "../dao/repositories/cartRepository.js";
 import { createHash, isValidPassword } from "../utils.js";
+import CartsDAO from "../dao/class/carts.dao.js";
+import usersDAO from "../dao/class/users.dao.js";
 
 export const registerUser = async (userData) => {
   const { first_name, last_name, email, age, password } = userData;
 
-  let user = await findUserByEmail(email);
+  let user = await usersDAO.getUserByEmail(email);
   if (user) {
     throw new Error("El usuario ya existe");
   }
-
-  const cartId = await createCart();
+  const cart = await CartsDAO.createCart()
+  const cartId = cart._id;
   const newUser = {
     first_name,
     last_name,
@@ -20,19 +20,20 @@ export const registerUser = async (userData) => {
     cart: cartId,
   };
 
-  return await createUser(newUser);
+  return await usersDAO.createNewUser(newUser);
 };
 
 export const loginUser = async (email, password) => {
-  const user = await findUserByEmail(email);
+  const user = await usersDAO.getUserByEmail(email);
 
   if (!user || !isValidPassword(user, password)) {
     throw new Error("Usuario o contraseña incorrectos");
   }
 
   if (!user.cart) {
-    const cartId = await createCart();
-    await updateUserCart(user._id, cartId);
+    const cart = await CartsDAO.createCart()
+    const cartId = cart._id;
+    await usersDAO.updateUserCart(user._id, cartId);
     user.cart = cartId;
   }
 
@@ -40,10 +41,11 @@ export const loginUser = async (email, password) => {
 };
 
 export const findOrCreateGithubUser = async (profile) => {
-  let user = await findUserByEmail(profile._json.email);
+  let user = await usersDAO.getUserByEmail(profile._json.email);
 
   if (!user) {
-    const cartId = await createCart();
+    const cart = await CartsDAO.createCart()
+    const cartId = cart._id;
     const newUser = {
       first_name: profile._json.name,
       last_name: "",
@@ -54,7 +56,7 @@ export const findOrCreateGithubUser = async (profile) => {
       cart: cartId,
     };
 
-    return await createUser(newUser);
+    return await usersDAO.createNewUser(newUser);
   } else {
     if (!user.cart) {
       const cartId = await createCart();
