@@ -3,16 +3,11 @@ import CartsDAO from '../dao/class/carts.dao.js';
 import ProductsDAO from '../dao/class/products.dao.js';
 import usersDAO from '../dao/class/users.dao.js';
 
-export const getCartsController = async (req, res) => {
+export const getCartsApiController = async (req, res) => {
   try {
-    const imgCart = "/public/img/carrito.jpg";
     const carts = await CartsDAO.getAllCarts();
 
-    res.render("carts", {
-      style: "style.css",
-      carts: carts,
-      img: imgCart,
-    });
+    res.status(200).json(carts);
   } catch (error) {
     res.status(500).json({
       message: `Error al obtener el carrito por ID`,
@@ -21,31 +16,31 @@ export const getCartsController = async (req, res) => {
   }
 };
 
-export const getCartsByIdController = async (req, res) => {
+export const getCartsApiByIdController = async (req, res) => {
   const { cid } = req.params;
   try {
     const cart = await CartsDAO.getCartById(cid);
+;
 
+    // Inicializa el total a 0
     let total = 0;
+
+    // Itera sobre cada producto en el carrito
     cart.products.forEach((product) => {
+      // Multiplica la cantidad por el precio y suma al total
       total += product.quantity * product.productId.price;
     });
 
-    res.render("cart", {
-      style: "style.css",
-      cart: cart,
-      total: total,
-    });
+    res.status(200).json(cart);
   } catch (error) {
-    res.status(500).render("noCart", {
-      style: "style.css",
+    res.status(500).json({
       message: `Error al obtener el carrito por ID`,
       error: error.message,
     });
   }
 };
 
-export const createCartController = async (req, res) => {
+export const createCartApiController = async (req, res) => {
   try {
     const newCart = await CartsDAO.createCart();
     res.status(201).json({ cart: newCart, message: `Carrito creado correctamente` });
@@ -54,7 +49,7 @@ export const createCartController = async (req, res) => {
   }
 };
 
-export const addProdCartController = async (req, res) => {
+export const addProdCartApiController = async (req, res) => {
   const { cid, pid } = req.params;
 
   try {
@@ -78,7 +73,7 @@ export const addProdCartController = async (req, res) => {
   }
 };
 
-export const deleteProdCartController = async (req, res) => {
+export const deleteProdCartApiController = async (req, res) => {
   const { cid, pid } = req.params;
 
   try {
@@ -102,18 +97,18 @@ export const deleteProdCartController = async (req, res) => {
   }
 };
 
-export const deleteCartUserController = async (req, res) => {
+export const deleteCartUserApiController = async (req, res) => {
   const userId = req.user._id;
   let cid;
   try {
-    const user = await usersDAO.findUserByOne(userId);
+    const user = await usersDAO.findUserById(userId);
     if (!user) {
       return res.status(404).send({ status: "error", message: "Usuario inexistente" });
     }
     cid = user.cart;
 
-    const cart = await CartsDAO.deleteCart(cid);
-    await usersDAO.updateUserCart(user._id, null);
+    await CartsDAO.deleteCart(cid);
+    await usersDAO.updateUser({ _id: user._id }, { cart: null });
 
     res.status(200).json({ message: `Carrito ID: ${cid} borrado correctamente!` });
   } catch (error) {

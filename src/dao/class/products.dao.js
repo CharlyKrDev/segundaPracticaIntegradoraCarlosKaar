@@ -4,7 +4,9 @@ class ProductsDAO {
   async getProductById(id) {
     return await productsModel.findById(id);
   }
-
+ async createProduct(fields){
+  return await productsModel.create(fields)
+ }
   async getProductsLimit(limit){
     return await productsModel.find().limit(limit)
   }
@@ -15,7 +17,7 @@ class ProductsDAO {
     return await productsModel.find(code)
   }
 
-  async updateOneProduct({productId }, updateFields){
+  async updateOneProduct(productId, updateFields){
 
     return await productsModel.updateOne({ _id: productId }, updateFields )
   }

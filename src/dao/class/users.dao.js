@@ -4,6 +4,10 @@ class UsersDAO {
   async getUserByEmail(email) {
     return await userModel.findOne({ email });
   }
+  async findUserByOne(id) {
+    return await userModel.findOne({ _id:id });
+  }
+
 
   async createNewUser(newUser) {
     return await userModel.create(newUser);
