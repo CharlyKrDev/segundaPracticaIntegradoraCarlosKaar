@@ -14,8 +14,9 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import initializePassport from "./config/passport.config.js";
 import passport from "passport";
-import sessionsRouter from "./routes/api/sessionsRoutersApi.js";
+import sessionsApiRouter from "./routes/api/sessionsRoutersApi.js";
 import registerRouter from "./routes/registerRouters.js";
+import sessionsRouter from "./routes/sessionsRouters.js";
 
 const app = express();
 const PORT = 8080;
@@ -48,8 +49,8 @@ app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 
 // APIs
-app.use("/api/sessions", sessionsRouter);
-app.use("/api/sessions", sessionsRouter);
+
+app.use("/api/sessions", sessionsApiRouter);
 app.use("/api/carts", cartsRouterApiM);
 app.use("/api/products", productsRouterApi);
 
@@ -59,6 +60,9 @@ app.use("/dashBoardProducts", dashboardProductsRouter);
 app.use("/messages", messagesRouter);
 app.use("/products", homeRouter);
 app.use("/", registerRouter);
+app.use("/sessions", sessionsRouter);
+
+
 
 
 socketConnection(socketServer);
