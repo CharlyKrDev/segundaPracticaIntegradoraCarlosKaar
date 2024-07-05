@@ -4,6 +4,9 @@ class ProductsDAO {
   async getProductById(id) {
     return await productsModel.findById(id);
   }
+  async findProducts(){
+    return await productsModel.find().lean()
+  }
  async createProduct(fields){
   return await productsModel.create(fields)
  }
