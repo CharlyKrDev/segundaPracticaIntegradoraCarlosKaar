@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { isAdminOrAdminMaster } from "../middleware/auth.js";
-import { isAuthenticated } from "../middleware/auth.js";
+import { isAuthenticated, isCartOwner } from "../middleware/auth.js";
 import { getCartsController, getCartsByIdController, createCartController, addProdCartController, deleteProdCartController, deleteCartUserController } from "../controllers/cartsControllers.js";
 
 const cartsRouterM = Router();
@@ -10,7 +10,7 @@ const cartsRouterM = Router();
 cartsRouterM.get("/",isAuthenticated, isAdminOrAdminMaster, getCartsController);
 
 // Obtener un carrito por ID
-cartsRouterM.get("/:cid", getCartsByIdController);
+cartsRouterM.get("/cart/:cid", isCartOwner, getCartsByIdController);
 
 // Crear un nuevo carrito
 cartsRouterM.post("", isAuthenticated, isAdminOrAdminMaster, createCartController);
@@ -21,5 +21,5 @@ cartsRouterM.put("/:cid/products/:pid", addProdCartController);
 cartsRouterM.delete("/:cid/products/:pid", isAuthenticated, deleteProdCartController);
 
 //Borrar carrito del usuario
-cartsRouterM.delete("/:cid",isAuthenticated, isAdminOrAdminMaster, deleteCartUserController);
+cartsRouterM.delete("/:cid",isAuthenticated, deleteCartUserController);
 export default cartsRouterM;

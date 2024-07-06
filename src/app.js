@@ -58,7 +58,7 @@ app.use("/api/products", productsRouterApi);
 app.use("/carts", cartsRouterM);
 app.use("/dashBoardProducts", dashboardProductsRouter);
 app.use("/messages", messagesRouter);
-app.use("/products", homeRouter);
+app.use("/", homeRouter);
 app.use("/", registerRouter);
 app.use("/sessions", sessionsRouter);
 

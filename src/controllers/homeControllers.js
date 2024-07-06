@@ -49,3 +49,12 @@ export const getHomePage = async (req, res) => {
     res.status(404).json({ error: error.message });
   }
 };
+
+export const getHomePage404 = async (req, res) => {
+
+  res.status(404).render("404",{
+    style: "style.css"
+  })
+
+}
+
