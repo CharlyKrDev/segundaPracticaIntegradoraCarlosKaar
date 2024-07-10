@@ -11,17 +11,12 @@ dotenv.config();
 
 export const SECRET_KEY = process.env.JWT_SECRET;
 
+
 export const generateToken = (user) => {
-  console.log(user)
   const token = jwt.sign({user}, SECRET_KEY, { expiresIn: '12h' });
-  const payload = {
-    sub: user._id,
-    email: user.email,
-    role: user.role,
-    cart: user.cart,
-  };
-  return token
-}
+
+  return token;
+};
 
 // Funciones para hashear password
 const  createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
