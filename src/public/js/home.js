@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
   newCart.addEventListener("click", async (e) => {
     try {
       // Enviar solicitud para crear un nuevo carrito
-      const response = await fetch(`/api/carts/`, {
+      const response = await fetch(`/carts/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

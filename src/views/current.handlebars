@@ -5,12 +5,12 @@
 <p>Edad: {{user.age}}</p>
 <p>Mi rol: {{user.role}}</p>
 <p>ID de mi carrito:{{user.cart}}</p>
-<button><a href="http://localhost:8080/carts/{{user.cart}}">Ver mi carrito</a></button>
+<button><a href="http://localhost:8080/carts/cart/{{user.cart}}">Ver mi carrito</a></button>
 
 
 
 <button><a href="http://localhost:8080/products">Inicio</a></button>
 
-<form action="/api/sessions/logout" method="POST">
+<form action="/sessions/logout" method="POST">
     <button type="submit">Cerrar Sesión</button>
 </form>

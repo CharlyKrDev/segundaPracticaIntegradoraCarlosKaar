@@ -1,50 +1,19 @@
-import { __dirname } from "../utils.js";
-
-import productsModel from "../data/models/products.model.js";
+import {
+  handleConnection,
+  handleAddProduct,
+  handleDeleteProduct
+} from "../controllers/socketControllers.js";
 
 export const socketConnection = (socketServer) => {
-  socketServer.on("connection", async (socket) => {
-    console.log(`New client connected`);
+  socketServer.on("connection", (socket) => {
+      handleConnection(socket);
 
-    try {
-      const products = await productsModel.find().lean();
-      socket.emit("currentProducts", products);
-    } catch (error) {
-      console.error("Error al enviar productos al cliente:", error);
-      socket.emit("error", { message: "Error al procesar la solicitud" });
-    }
+      socket.on("addProduct", (newProduct) => {
+          handleAddProduct(socketServer, socket, newProduct);
+      });
 
-    socket.on("addProduct", async (newProduct) => {
-      try {
-
-        if (
-          newProduct.status !== true &&
-          newProduct.status !== false &&
-          newProduct.status !== undefined
-        ) {
-  
-          newProduct.status = true;
-  
-        }
-        await productsModel.create(newProduct);
-        const updatedProducts = await productsModel.find().lean();
-
-        socketServer.emit("updateProducts", updatedProducts);
-      } catch (error) {
-        console.error("Error al agregar producto:", error);
-        socket.emit("error", { message: "Error al agregar producto" });
-      }
-    });
-
-    socket.on("deleteProduct", async (productId) => {
-      try {
-        await productsModel.deleteOne({ _id: productId });
-        const updatedProducts = await productsModel.find().lean();
-        socketServer.emit("updateProducts", updatedProducts);
-      } catch (error) {
-        console.error("Error al eliminar producto:", error);
-        socket.emit("error", { message: "Error al eliminar producto" });
-      }
-    });
+      socket.on("deleteProduct", (productId) => {
+          handleDeleteProduct(socketServer, socket, productId);
+      });
   });
 };

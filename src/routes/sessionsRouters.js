@@ -1,44 +1,44 @@
 import { Router } from "express";
 import passport from "passport";
 import {
-  githubAuthApi,
-  githubCallbackApi,
-  loginApi,
-  registerApi,
-  failLoginApi,
-  failRegisterApi,
-  logoutApi,
-} from "../../controllers/authControllers.js";
+  githubAuth,
+  githubCallback,
+  login,
+  register,
+  failLogin,
+  failRegister,
+  logout,
+} from "../controllers/authControllers.js";
 
 const router = Router();
 router.get(
   "/github",
   passport.authenticate("github", { scope: "user.email" }),
-  githubAuthApi
+  githubAuth
 );
 
 router.get(
   "/githubcallback",
   passport.authenticate("github", { failureRedirect: "/login" }),
-  githubCallbackApi
+  githubCallback
 );
 
 router.post(
   "/register",
   passport.authenticate("register", { failureRedirect: "failregister" }),
-  registerApi
+  register
 );
 
-router.get("/failregister", failRegisterApi);
+router.get("/failregister", failRegister);
 
 router.post(
   "/login",
   passport.authenticate("login", { failureRedirect: "faillogin" }),
-  loginApi
+  login
 );
 
-router.get("/faillogin", failLoginApi);
+router.get("/faillogin", failLogin);
 
-router.post("/logout", logoutApi);
+router.post("/logout", logout);
 
 export default router;

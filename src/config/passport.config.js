@@ -1,6 +1,6 @@
 import passport from "passport";
 import local from "passport-local";
-import userModel from "../data/models/user.model.js";
+import usersDAO from "../dao/class/users.dao.js";
 import GithubStrategy from "passport-github2";
 import dotenv from "dotenv";
 import {
@@ -28,7 +28,7 @@ const initializePassport = () => {
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await userModel.findById(id);
+    let user = await usersDAO.findUserById(id);
     done(null, user);
   });
 
@@ -50,14 +50,6 @@ const initializePassport = () => {
     )
   );
 
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
-
-  passport.deserializeUser(async (id, done) => {
-    let user = await userModel.findById(id);
-    done(null, user);
-  });
 };
 
 export default initializePassport;

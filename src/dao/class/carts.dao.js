@@ -14,6 +14,19 @@ class CartsDAO {
     return await newCart.save();
   }
 
+  async addProductToCartApi(cartId, productId) {
+    const cart = await cartsModel.findById(cartId);
+    if (!cart) throw new Error('Cart not found');
+
+    const productInCart = cart.products.find(p => p.productId.equals(productId));
+    if (productInCart) {
+      productInCart.quantity += 1;
+    } else {
+      cart.products.push({ productId, quantity: 1 });
+    }
+
+    return await cart.save();
+  }
   async addProductToCart(cartId, productId) {
     const cart = await cartsModel.findById(cartId);
     if (!cart) throw new Error('Cart not found');
