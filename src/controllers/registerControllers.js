@@ -7,7 +7,9 @@ export const renderLogin = (req, res) => {
   };
   
   export const renderCurrent = (req, res) => {
-    res.render("current", { user: req.session.user, style: "style.css" });
+    const userRole =  req.session.user.role
+    res.render("current", { user: req.session.user, role: userRole ==="admin" || userRole==="adminMaster"
+      , style: "style.css" });
   };
   
 

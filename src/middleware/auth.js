@@ -59,7 +59,7 @@ export const isAdminOrAdminMaster = (req, res, next) => {
   if (userRole === "admin" || userRole === "adminMaster") {
     return next();
   } else {
-    return res.status(403).json({ message: "Acceso denegado" });
+    return res.redirect("/404");
   }
 };
 
@@ -69,6 +69,6 @@ export const isAdminMaster = (req, res, next) => {
   if (userRole === "adminMaster") {
     return next();
   } else {
-    return res.status(403).json({ message: "Acceso denegado" });
+    return res.redirect("/404");
   }
 };

@@ -237,3 +237,24 @@ Cart Style
     display: flex;
     gap: 5px;
 }
+
+/*
+Current
+*/
+.containerCurrent{
+    display: flex;
+}
+.btnCurrent{
+
+    display: flex;
+    width: 200px;
+    flex-direction: column;
+    align-items:center;
+    gap: 3px;
+
+}
+
+.btnCurrent button{
+
+width: 100px;
+}

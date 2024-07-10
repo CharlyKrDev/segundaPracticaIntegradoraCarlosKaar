@@ -1,16 +1,29 @@
 <h2>Perfil de Usuario</h2>
-<p>Nombre: {{user.first_name}}</p>
-<p>Apellido: {{user.last_name}}</p>
-<p>Email: {{user.email}}</p>
-<p>Edad: {{user.age}}</p>
-<p>Mi rol: {{user.role}}</p>
-<p>ID de mi carrito:{{user.cart}}</p>
-<button><a href="http://localhost:8080/carts/cart/{{user.cart}}">Ver mi carrito</a></button>
+<main class="containerCurrent">
+
+    <aside class="btnCurrent">
+        <button><a href="http://localhost:8080/carts/cart/{{user.cart}}">Ver mi carrito</a></button>
+        {{#if role}}
+        <button><a href="http://localhost:8080/dashBoardProducts">Editar productos</a></button>
+        <button><a href="http://localhost:8080/carts">Ver carritos</a></button>
+        <button id="createCart">Crear carrito</button>
+
+        {{/if}}
 
 
+        <button><a href="http://localhost:8080/products">Inicio</a></button>
 
-<button><a href="http://localhost:8080/products">Inicio</a></button>
+        <form action="/sessions/logout" method="POST">
+            <button type="submit">Cerrar Sesión</button>
+        </form>
+    </aside>
 
-<form action="/sessions/logout" method="POST">
-    <button type="submit">Cerrar Sesión</button>
-</form>
+    <section>
+        <p>Nombre: {{user.first_name}}</p>
+        <p>Apellido: {{user.last_name}}</p>
+        <p>Email: {{user.email}}</p>
+        <p>Edad: {{user.age}}</p>
+        <p>Mi rol: {{user.role}}</p>
+        <p>ID de mi carrito:{{user.cart}}</p>
+    </section>
+</main>

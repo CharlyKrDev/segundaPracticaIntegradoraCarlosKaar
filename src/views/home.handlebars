@@ -1,9 +1,3 @@
-<a href="http://localhost:8080/dashBoardProducts"><button style="margin-top:30px">Editar productos</button></a>
-<button><a href="http://localhost:8080/carts">Ver carritos</a></button>
-<button><a href="http://localhost:8080/login">Iniciar sesión</a></button>
-
-
-
 <section>
   <div>
     <label for="limitSelect">Mostrar:</label>
@@ -13,7 +7,6 @@
       <option value="10" selected>10</option>
       <option value="all">Todos</option>
     </select>
-    <button id="createCart">Crear carrito</button>
 
   </div>
   <div>
@@ -50,7 +43,7 @@
       <p>Stock: {{this.stock}} unidades</p>
       <p><span>${{this.price}}</span></p>
       {{#if ../cart}}
-        <button class="add-to-cart" data-id="{{this._id}}">Agregar al carrito</button>
+      <button class="add-to-cart" data-id="{{this._id}}">Agregar al carrito</button>
       {{/if}}
     </section>
   </section>
