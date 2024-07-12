@@ -5,10 +5,12 @@ export const getHomePage = async (req, res) => {
 
   if (req.user) {
     userId = req.user._id;
+   
   }
 
   try {
-    const { products, cartId, debug } = await getHomePageData(userId, req.query);
+
+    const { products, cartId, userRole, debug } = await getHomePageData(userId, req.query);
 
     if (debug) {
       return res.json({
@@ -22,7 +24,6 @@ export const getHomePage = async (req, res) => {
         nextPage: products.nextPage,
       });
     }
-
     const prevLink = products.hasPrevPage
       ? `http://localhost:8080/products/?page=${products.prevPage}&limit=${products.limit}`
       : "";
@@ -30,7 +31,6 @@ export const getHomePage = async (req, res) => {
       ? `http://localhost:8080/products/?page=${products.nextPage}&limit=${products.limit}`
       : "";
     const isValid = !(products.page <= 0 || products.page > products.totalPages);
-
     res.render("home", {
       style: "style.css",
       productos: products.docs,
@@ -43,6 +43,7 @@ export const getHomePage = async (req, res) => {
       prevLink,
       nextLink,
       isValid,
+      role: userRole === "user",
       cart: cartId,
     });
   } catch (error) {

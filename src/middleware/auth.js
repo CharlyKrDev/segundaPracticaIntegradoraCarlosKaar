@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import cartsDAO from "../dao/class/carts.dao.js";
-import usersDAO from "../dao/class/users.dao.js";
 
 export const isAuthenticated = (req, res, next) => {
   if (req.session.user) {

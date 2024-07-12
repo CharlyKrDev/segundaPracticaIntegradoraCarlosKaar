@@ -42,9 +42,12 @@
       <p>{{this.description}}</p>
       <p>Stock: {{this.stock}} unidades</p>
       <p><span>${{this.price}}</span></p>
+      {{#if ../role}}
       {{#if ../cart}}
       <button class="add-to-cart" data-id="{{this._id}}">Agregar al carrito</button>
       {{/if}}
+      {{/if}}
+
     </section>
   </section>
   {{/each}}

@@ -3,6 +3,7 @@ import usersDAO from "../dao/class/users.dao.js";
 
 export const getHomePageData = async (userId, query) => {
   let cartId = null;
+  let userRole = null;
 
   // Si el usuario está autenticado, buscar el carrito
   if (userId) {
@@ -11,7 +12,9 @@ export const getHomePageData = async (userId, query) => {
       throw new Error("Usuario inexistente");
     }
     cartId = user.cart ? user.cart.toString() : null;
+    userRole = user.role
   }
+
 
   let { limit = 10, page = 1, sort, debug } = query;
   const totalProduct = await ProductsDAO.getTotalProductsCount();
@@ -41,6 +44,7 @@ export const getHomePageData = async (userId, query) => {
   return {
     products,
     cartId,
+    userRole,
     debug,
   };
 };
